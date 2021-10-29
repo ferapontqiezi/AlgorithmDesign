@@ -1,0 +1,18 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "stack": "cpp",
+        "deque": "cpp",
+        "ios": "cpp",
+        "system_error": "cpp",
+        "vector": "cpp",
+        "xiosbase": "cpp",
+        "xstring": "cpp",
+        "xtree": "cpp",
+        "algorithm": "cpp",
+        "utility": "cpp",
+        "istream": "cpp",
+        "iostream": "cpp",
+        "cstdio": "cpp"
+    }
+}
