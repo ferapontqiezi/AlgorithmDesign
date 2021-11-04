@@ -8,52 +8,69 @@ using namespace std;
 typedef long long ll;
 const int N = 1e5 + 777;
 
-ll tree[N], a[N], n, m;
+ll n, m;
+//区间修改，区间查询
+ll a[N];
+//维护a[i]的前缀和
+ll b[N];
+//维护a[i]*i的前缀和
+ll c[N];
 
-void update(int x, int d) {
+void update_1(ll x, ll d) {
     while (x <= n) {
-        tree[x] += d;
+        b[x] += d;
         x += lowbit(x);
     }
 }
-void add(int l, int r, int v){
-    update(l, v);
-    update(r + 1, -v);
-}
-
-ll presum(int x) {
+ll getsum_1(ll x){
     ll ans = 0;
-
     while (x > 0) {
-        ans += tree[x];
+        ans += b[x];
         x -= lowbit(x);
     }
+    return ans;
+}
 
+void update_2(ll x, ll d) {
+    while (x <= n) {
+        c[x] += d;
+        x += lowbit(x);
+    }
+}
+ll getsum_2(ll x){
+    ll ans = 0;
+    while (x > 0) {
+        ans += c[x];
+        x -= lowbit(x);
+    }
     return ans;
 }
 
 int main() {
-    //freopen("test.txt", "r", stdin);
-    //freopen("out.txt", "w", stdout);
-    scanf("%d %d", &n, &m);
+    //freopen("../test/10.in", "r", stdin);
+    //freopen("../test/10out.out", "w", stdout);
+    scanf("%lld %lld", &n, &m);
 
     for (int i = 1; i <= n; i++) {
-        ll x;
-        scanf("%lld", &x);
-        a[i] = x;
+        scanf("%lld", a + i);
+        update_1(i, a[i]);
+        update_2(i, a[i] * i);
     }
     while (m--) {
         string op;
         cin >> op;
         
         if (op == "Modify") {
-            int x, d;
-            scanf("%d %d", &x, &d);
-            update(x, d);
+            ll l, d;
+            scanf("%lld %lld", &l, &d);
+            update_1(l, d - a[l]);
+            update_2(l, l * d - l * a[l]);
+            a[l] = d;
         } else {
-            int x;
-            scanf("%d", &x);
-            printf("%lld\n", a[x] + presum(x));
+            ll x;
+            scanf("%lld", &x);
+            ll ans = getsum_1(x) * (x + 1) - getsum_2(x);
+            printf("%lld\n", ans);
         }
     }
 
