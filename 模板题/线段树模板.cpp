@@ -129,7 +129,7 @@ struct SegTree {
     }
 };
 
-int MOD, n, m;
+ll n, m, MOD;
 
 inline int add(int a, int b) { // 定义线段树内聚合，同时也是定义加法取模函数
     return (((ll)a + b) % MOD + MOD) % MOD;
@@ -147,26 +147,25 @@ pair<int,int> addtt(pair<int,int> a, pair<int,int> b) { // 定义懒标记与懒
 }
 
 int main() {
-    freopen("../1111/1.in","r",stdin);
-    freopen("../1111/1.txt","w",stdout);
-    ios_base::sync_with_stdio(0); cin.tie(0);
-    cin >> n >> m >> MOD;
+    //freopen("../1111/1.in","r",stdin);
+    //freopen("../1111/1.txt","w",stdout);
+    n = read(), m = read(), MOD = read();
     vector<int> A(n+1);
     for (int i = 1;i <= n; ++i) {
-        cin >> A[i];
+        A[i] = read();
     }
     SegTree<int,pair<int,int>> seg(A, 1, n, &add, &addt, &addtt, {1, 0});
-    for (int i = 1;i <= m; ++i) {
+    for (int i = 1; i <= m; ++i) {
         int op, x, y, z;
-        cin >> op;
+        op = read();
         if (op == 1) {
-            cin >> x >> y >> z;
+            x = read(), y = read(), z = read();
             seg.update(x, y, {z, 0});
         } else if (op == 2) {
-            cin >> x >> y >> z;
+            x = read(), y = read(), z = read();
             seg.update(x, y, {1, z});
         } else {
-            cin >> x >> y;
+            x = read(), y = read();
             cout << seg.query(x, y) << endl;
         }
     }
