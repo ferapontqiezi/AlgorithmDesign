@@ -1,5 +1,6 @@
 //类似于一维的处理，可以设差分数组 d[i]=a[i][j]-a[i-1][j]+a[i][j-1]-a[i-1][j-1]
 
+//变量名“y1”在<cmath>库里头有定义，会冲突，所以不开bits库就好。
 //用万能头的选手不要使用x1,y1
 void update(int x, int y, int z){ 
     int _y = y;
