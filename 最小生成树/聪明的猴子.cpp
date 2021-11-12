@@ -1,61 +1,80 @@
 // kruskal算法，适合稀疏图
-#include<bits/stdc++.h>
+#include<cstdio>
+#include<iostream>
+#include<cmath>
+#include<algorithm>
+#define maxn 1007
+#define maxm 1000007
 using namespace std;
 
-inline int read(){
+inline int read() {
     int x = 0, f = 1; char c = getchar();
-    while(c < '0' || c > '9'){if(c == '-') f = -1; c = getchar();}
-    while(c >= '0' && c<= '9') x = (x << 3) + (x << 1) + (c ^ 48), c = getchar();
-    return x*f;
+    while (c < '0' || c > '9') { if (c == '-') f = -1; c = getchar(); }
+    while (c >= '0' && c <= '9') x = (x << 3) + (x << 1) + (c ^ 48), c = getchar();
+    return x * f;
 }
 
-struct Edge{
-	int u, v, w; //from, to, weight
-}edge[200005];
-inline bool cmp(Edge a, Edge b){
+struct Edge {
+    int u, v; // from, to
+    double w; // wieght
+}edge[maxm];
+inline bool cmp(Edge a, Edge b) {
     return a.w < b.w;
 }
-int root[5005], n, m, ans, cnt;
+int root[maxn], n, m, cnt;
+int monkey[maxn], x[maxn], y[maxn], num;
+double ans;
 
-inline int find(int x){
-    while(x != root[x]) x = root[x] = root[root[x]];
+inline int find(int x) {
+    while (x != root[x]) x = root[x] = root[root[x]];
     return x;
 }
 
-void init(){
-    n = read(), m = read();
-    for(int i = 1; i <= n; i++){
-        root[i] = i;
+void init() {
+    n = read();
+    for (int i = 1; i <= n; i++) {
+        monkey[i] = read();
     }
-    for(int i = 0; i < m; i++){
-        edge[i].u = read(), edge[i].v = read(), edge[i].w = read();
+    m = read();
+    for (int i = 0; i < m; i++) {
+        root[i] = i;
+        x[i] = read(), y[i] = read();
+    }
+    for (int u = 0; u < m - 1; u++) {
+        for (int v = u + 1; v < m; v++) {
+            edge[num].u = u, edge[num].v = v;
+            edge[num].w = sqrt((x[u] - x[v]) * (x[u] - x[v]) + (y[u] - y[v]) * (y[u] - y[v]));
+            num++;
+        }
     }
 }
 
-int kruskal(){
-    sort(edge, edge + m, cmp);
-    for(int i = 0; i < m; i++){
+int kruskal() {
+    int result = 0;
+    sort(edge, edge + num, cmp);
+    for (int i = 0; i < num; i++) {
         int root_u = find(edge[i].u);
         int root_v = find(edge[i].v);
-        if(root_u == root_v)
+        if (root_u == root_v)
             continue;
-        ans += edge[i].w;
+        ans = edge[i].w;
         root[root_v] = root_u;
         cnt++;
-        if(cnt == n - 1)
+        if (cnt == m - 1)
             break;
     }
-    return ans;
+    for (int i = 1; i <= n; i++) {
+        if (monkey[i] >= ans) result++;
+    }
+    return result;
 }
 
-int main(){
+int main() {
     init();
     int res = kruskal();
     printf("%d", res);
     return 0;
 }
-
-
 /*
 4
 1 2 3 4

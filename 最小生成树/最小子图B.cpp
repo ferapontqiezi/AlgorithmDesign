@@ -1,6 +1,6 @@
 // kruskal算法，适合稀疏图
 #include<bits/stdc++.h>
-#define maxn 1007
+#define maxn 10007
 #define maxm 1000007
 using namespace std;
 
@@ -17,7 +17,7 @@ struct Edge{
 inline bool cmp(Edge a, Edge b){
     return a.w < b.w;
 }
-int root[maxn], n, m, ans, cnt;
+int root[maxn], n, m, k, ans = 0, cnt;
 
 inline int find(int x){
     while(x != root[x]) x = root[x] = root[root[x]];
@@ -25,12 +25,16 @@ inline int find(int x){
 }
 
 void init(){
-    n = read(), m = read();
+    n = read(), m = read(), k = read();
     for(int i = 1; i <= n; i++){
         root[i] = i;
     }
     for(int i = 0; i < m; i++){
         edge[i].u = read(), edge[i].v = read(), edge[i].w = read();
+        if(edge[i].w == k) {
+            ans += k;
+            edge[i].w = 0;
+        }
     }
 }
 
@@ -51,9 +55,9 @@ int kruskal(){
 }
 
 int main(){
+    //freopen("../1.in", "r", stdin);
     init();
     int res = kruskal();
     printf("%d", res);
     return 0;
 }
-

@@ -1,6 +1,6 @@
 // kruskal算法，适合稀疏图
 #include<bits/stdc++.h>
-#define maxn 1007
+#define maxn 10007
 #define maxm 1000007
 using namespace std;
 
@@ -51,9 +51,9 @@ int kruskal(){
 }
 
 int main(){
+    //freopen("../1.in", "r", stdin);
     init();
     int res = kruskal();
     printf("%d", res);
     return 0;
 }
-
